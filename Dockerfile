@@ -8,9 +8,12 @@ ENV SCREEN_HEIGHT=540
 ENV VIDEO_FRAMERATE=15
 ENV VIDEO_BITRATE=800
 
+# Cache-buster: change this value any time to force Docker to skip old cached
+# layers and actually re-run the permission fix below.
+ARG CACHEBUST=2
+
 # Fix permission issue: Render's build process sometimes strips
 # execute permission from entrypoint.sh and other scripts. This restores it.
-# Placed last (and with --no-cache-ish uniqueness) so it always re-runs.
-RUN chmod +x /*.sh 2>/dev/null; chmod +x ./*.sh 2>/dev/null; find / -maxdepth 3 -name "*.sh" -exec chmod 755 {} \; 2>/dev/null; echo "permissions fixed"
+RUN chmod +x /*.sh 2>/dev/null; chmod +x ./*.sh 2>/dev/null; find / -maxdepth 3 -name "*.sh" -exec chmod 755 {} \; 2>/dev/null; ls -la /entrypoint.sh ./entrypoint.sh 2>/dev/null; echo "permissions fixed, cachebust=2"
 
 ENTRYPOINT ["/bin/bash", "./entrypoint.sh"]
