@@ -5,4 +5,4 @@ FROM quay.io/renokico/browser-streamer:1.0
 USER root
 RUN chmod +x ./entrypoint.sh || chmod +x /entrypoint.sh || true
 
-ENTRYPOINT ["/bin/sh", "./entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "./entrypoint.sh"]
